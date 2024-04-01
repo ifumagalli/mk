@@ -23,7 +23,7 @@ package() {
   extract $archive
   extract $sziparchive
 
-  module load scipy
+  #module load scipy
 
   # szip
   pushd szip-$szipver
