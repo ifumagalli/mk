@@ -20,3 +20,22 @@ Use `module avail` or `module spider` to check the available packages.
 A `Docker` image built upon [`Ubuntu`](https://hub.docker.com/_/ubuntu)
 (`x86-64` architecture) with `mk` installed is available
 [here](https://hub.docker.com/r/pcafrica/mk).
+
+## How to build from source
+
+This is how the distro was built on `kami`
+
+```
+export mkPrefix=</path/to/modules>
+cd mk/bootstrap
+nohup ./bootstrap ${mkPrefix} > bootstrap.log &
+source ${mkPrefix}/etc/profile
+cd ../toolchains/gcc-glibc
+nohup make mkFlags="-v --jobs=90" install > gcc-glibc.log &
+source ${mkPrefix}/etc/profile
+module load gcc-glibc
+cd ../../base/
+nohup make mkFlags="-v --jobs=90" install > base.log &
+cd ../pkgs/
+nohup make mkFlags="-v --jobs=90" install > pkgs.log &
+```
