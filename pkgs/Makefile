@@ -42,7 +42,8 @@ libs:
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) adol-c
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) gsl
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) arborx
-
+	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) sundials
+	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) rapidjson
 lifex:
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) dealii
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) vtk
