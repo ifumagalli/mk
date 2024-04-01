@@ -1,21 +1,25 @@
 #!/bin/bash
 
 pkgname=scipy
-pkgver=1.7.0
+pkgver=1.12.0
+pyver=3.12
 
 cythonver=0.29.23
-numpyver=1.21.0
-ipythonver=7.25.0
+numpyver=1.26.4
+ipythonver=8.22.2
 sympyver=1.8
-pandasver=1.3.0
-mpi4pyver=3.0.3
+pandasver=2.2.1
+mpi4pyver=3.1.5
+netcdf4ver=1.6.5
+petsc4pyver=3.15.0
+slepc4pyver=3.15.1
 
 dstdir=$mkToolchainPkgs/$pkgname/$pkgver
 
 package() {
   export PATH="$dstdir"/bin:$PATH
-  export PYTHONPATH="$dstdir"/lib/python3.9/site-packages:$PYTHONPATH
-
+  export PYTHONPATH="$dstdir"/lib/python${pyver}/site-packages:$PYTHONPATH
+  module load netcdf petsc
   message "Compiling Cython"
   pip install --verbose --prefix=$dstdir cython==$cythonver
   message "Compiling numpy"
@@ -30,6 +34,14 @@ package() {
   pip install --verbose --prefix=$dstdir scipy==$pkgver
   message "Compiling mpi4py"
   pip install --verbose --prefix=$dstdir mpi4py==$mpi4pyver
+  message "Compiling netcdf4"
+  pip install --verbose --prefix=$dstdir netcdf4==$netcdf4ver
+  message "Installing Python bindings for petsc"
+  PETSC_DIR="$mkPetscPrefix" \
+    pip install --verbose --prefix=$dstdir petsc4py==$petsc4pyver
+  PYTHONPATH=$dstdir/lib/python${pyver}/site-packages:$PYTHONPATH \
+  PETSC_DIR="$mkPetscPrefix" SLEPC_DIR="$mkPetscPrefix" \
+    pip install --verbose --prefix="$dstdir" slepc4py==$slepc4pyver
 
   # module
   if [[ "$mkTest" = "no" ]]; then
@@ -45,11 +57,12 @@ mpi4py and ipython. It is enough to load the package for using it.
 url: https://www.scipy.org
 ]])
 
+load("netcdf")
 setenv("mkScipyPrefix", "$dstdir")
 
 prepend_path("PATH", "$dstdir/bin")
 prepend_path("MANPATH", "$dstdir/share/man")
-prepend_path("PYTHONPATH", "$dstdir/lib/python3.9/site-packages")
+prepend_path("PYTHONPATH", "$dstdir/lib/python${pyver}/site-packages")
 EOF
   fi
 }

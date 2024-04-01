@@ -11,14 +11,14 @@
 #   docker cp <container_id>:/mk/mk-2024.0-full.tar.gz .
 
 
-FROM debian:buster
+FROM rockylinux:9
 
-MAINTAINER pasqualeclaudio.africa@polimi.it
+MAINTAINER carlo.defalco@polimi.it
 
 
 # Define variables.
 ENV HOME /root
-ENV mkPrefix /u/sw
+ENV mkPrefix /opt/mox/mk
 
 ENV mkRoot /mk
 ENV mkOutputBasename "${mkRoot}/mk-2024.0"
@@ -31,16 +31,16 @@ ENV mkBashrcSource "source ${mkBashrc}"
 
 # Install dependencies.
 ENV DEBIAN_FRONTEND=noninteractive
-RUN apt-get update -y && \
-    apt-get upgrade -y && \
-    apt-get install -y build-essential python2.7 python3 \
+RUN yum upgrade -y && \
+    yum install -y gcc python3 \
       gawk procps wget curl openssh-client p11-kit \
       git rsync zip unzip
 
 
 # Clone repo.
-RUN git clone https://github.com/pcafrica/mk.git ${mkRoot}
-
+RUN git clone https://github.com/carlodefalco/mk.git ${mkRoot}
+WORKDIR ${mkRoot}
+RUN git checkout kami
 
 # 1. Bootstrap.
 WORKDIR ${mkRoot}

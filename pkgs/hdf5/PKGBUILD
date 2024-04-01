@@ -9,7 +9,7 @@ szipver=2.1.1
 sziparchive=szip-$szipver.tar.gz
 szipsum=434931cfe47e9b0730ea85fa5e25477bafd9704a
 
-h5pyver=3.6.0
+h5pyver=3.10.0
 
 dstdir=$mkToolchainPkgs/$pkgname/$pkgver
 
@@ -67,8 +67,8 @@ package() {
   strip "$dstdir"/lib
 
   # h5py.
-  message "Compiling h5py"
-  pip install --verbose --prefix=$dstdir h5py==$h5pyver
+  #message "Compiling h5py"
+  #pip install --verbose --prefix=$dstdir h5py==$h5pyver
 
   if [[ "$mkTest" = "no" ]]; then
     install -vd $mkToolchainModules/$pkgname
@@ -83,14 +83,14 @@ libraries are located in "\$mkHdf5Lib" directory and header files in
 url: https://www.hdfgroup.org/HDF5/
 ]])
 
-load("scipy")
+--load("scipy")
 
 setenv("mkHdf5Prefix", "$dstdir")
 setenv("mkHdf5Lib", "$dstdir/lib")
 setenv("mkHdf5Inc", "$dstdir/include")
 
 prepend_path("PATH", "$dstdir/bin")
-prepend_path("PYTHONPATH", "$dstdir/lib/python3.9/site-packages")
+--prepend_path("PYTHONPATH", "$dstdir/lib/python${pyver}/site-packages")
 prepend_path("LD_LIBRARY_PATH", "$dstdir/lib")
 EOF
   fi

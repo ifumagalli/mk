@@ -40,7 +40,8 @@ package() {
   sed -i "1s:/bin/bash:$(which bash):" "$dstdir"/libexec/ssl/make-ca
 
   "$dstdir"/libexec/ssl/make-ca -f -g
-
+  
+  chmod u+w "$dstdir"/etc/ssl/certs
   ln -s "$dstdir"/etc/pki/tls/certs/ca-bundle.crt "$dstdir"/etc/ssl/certs/ca-bundle.crt
   ln -s "$dstdir"/etc/pki/tls/certs/ca-bundle.crt "$dstdir"/etc/ssl/certs/ca-certificates.crt
 }

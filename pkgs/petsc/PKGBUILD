@@ -37,7 +37,7 @@ package() {
   module load p4est
   module load scalapack
   module load scotch
-  module load scipy
+  #module load scipy
   module load suitesparse
 
   # petsc
@@ -90,12 +90,12 @@ package() {
   popd
 
   # python bindings
-  message "Installing Python bindings"
-  PETSC_DIR="$dstdir" \
-    pip install --verbose --prefix="$dstdir" petsc4py==$petsc4pyver
-  PYTHONPATH=$dstdir/lib/python3.9/site-packages:$PYTHONPATH \
-  PETSC_DIR="$dstdir" SLEPC_DIR="$dstdir" \
-    pip install --verbose --prefix="$dstdir" slepc4py==$slepc4pyver
+  # message "Installing Python bindings"
+  # PETSC_DIR="$dstdir" \
+  #   pip install --verbose --prefix="$dstdir" petsc4py==$petsc4pyver
+  # PYTHONPATH=$dstdir/lib/python3.9/site-packages:$PYTHONPATH \
+  # PETSC_DIR="$dstdir" SLEPC_DIR="$dstdir" \
+  #   pip install --verbose --prefix="$dstdir" slepc4py==$slepc4pyver
 
   # cleaning
   find "$dstdir"/include -name \*html -exec rm {} \;
@@ -138,7 +138,7 @@ load("openblas")
 load("p4est")
 load("scalapack")
 load("scotch")
-load("scipy")
+--load("scipy")
 load("suitesparse")
 
 setenv("mkPetscPrefix", "$dstdir")
@@ -148,7 +148,7 @@ setenv("SLEPC_DIR", "$dstdir")
 prepend_path("PATH", "$dstdir/bin")
 prepend_path("LD_LIBRARY_PATH", "$dstdir/lib")
 prepend_path("PKG_CONFIG_PATH", "$dstdir/lib/pkgconfig")
-prepend_path("PYTHONPATH", "$dstdir/lib/python3.9/site-packages")
+--prepend_path("PYTHONPATH", "$dstdir/lib/python3.9/site-packages")
 EOF
   fi
 }

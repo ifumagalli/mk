@@ -2,6 +2,7 @@
 
 pkgname=fenics
 pkgver=2019.1.0
+pyver=3.12
 dstdir=$mkToolchainPkgs/$pkgname/$pkgver
 
 dolfinarchive=dolfin-$pkgver.tar.gz
@@ -9,6 +10,8 @@ dolfinsum=4f78366458ff166ee84960e80b7eb77ae517f7f4
 
 mshrarchive=mshr-$pkgver.tar.gz
 mshrsum=f8b03e68cc77a57c0e88ee5ca8d09cb9b637f791
+
+pyver=3.12
 
 package() {
   download https://bitbucket.org/fenics-project/dolfin/downloads/$dolfinarchive
@@ -37,7 +40,7 @@ package() {
 
   # make python happy
   export PATH="$dstdir"/bin:$PATH
-  export PYTHONPATH="$dstdir"/lib/python3.9/site-packages:$PYTHONPATH
+  export PYTHONPATH="$dstdir"/lib/python${pyver}/site-packages:$PYTHONPATH
 
   # installing FIAT
   message "Installing FIAT"
@@ -171,11 +174,11 @@ setenv("mkFenicsInc", "$dstdir/include")
 
 prepend_path("PATH", "$dstdir/bin")
 prepend_path("MANPATH", "$dstdir/share/man")
-prepend_path("PYTHONPATH", "$dstdir/lib/python3.9/site-packages")
-prepend_path("PYTHONPATH", "$dstdir/lib/python3.9/site-packages/fenics_dolfin-$pkgver-py3.9-linux-x86_64.egg")
-prepend_path("PYTHONPATH", "$dstdir/lib/python3.9/site-packages/mshr-$pkgver-py3.9-linux-x86_64.egg")
-prepend_path("PYTHONPATH", "$dstdir/lib/python3.9/site-packages/pkgconfig-1.5.5-py3.9.egg")
-prepend_path("PYTHONPATH", "$dstdir/lib/python3.9/site-packages/pybind11-2.2.4-py3.9.egg")
+prepend_path("PYTHONPATH", "$dstdir/lib/python${pyver}/site-packages")
+prepend_path("PYTHONPATH", "$dstdir/lib/python${pyver}/site-packages/fenics_dolfin-$pkgver-py$pyver{}-linux-x86_64.egg")
+prepend_path("PYTHONPATH", "$dstdir/lib/python${pyver}/site-packages/mshr-$pkgver-py${pyver}-linux-x86_64.egg")
+prepend_path("PYTHONPATH", "$dstdir/lib/python${pyver}/site-packages/pkgconfig-1.5.5-py${pyver}.egg")
+prepend_path("PYTHONPATH", "$dstdir/lib/python${pyver}/site-packages/pybind11-2.2.4-py${pyver}.egg")
 prepend_path("LD_LIBRARY_PATH", "$dstdir/lib")
 prepend_path("PKG_CONFIG_PATH", "$dstdir/lib/pkgconfig")
 
