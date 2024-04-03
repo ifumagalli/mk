@@ -21,16 +21,16 @@ ENV HOME /root
 ENV mkPrefix /opt/mox/mk
 
 ENV mkRoot /mk
-ENV mkOutputBasename "${mkRoot}/mk-2024.0"
+ENV mkOutputBasename "${mkRoot}/mk-kami"
 
 ENV mkKeepBuildDir yes
-ENV mkFlags "--jobs=6 -v"
+ENV mkFlags "--jobs=2 -v"
 
 ENV mkBashrc "${HOME}/.bashrc_mk"
 ENV mkBashrcSource "source ${mkBashrc}"
 
 # Install dependencies.
-ENV DEBIAN_FRONTEND=noninteractive
+# ENV DEBIAN_FRONTEND=noninteractive
 RUN yum upgrade -y && \
     yum install -y gcc python3 \
       gawk procps wget curl openssh-client p11-kit \
@@ -73,8 +73,8 @@ RUN tar czvf ${mkOutputBasename}-base.tar.gz ${mkPrefix}
 WORKDIR ${mkRoot}/pkgs
 RUN ${mkBashrcSource} && make libs mkFlags="${mkFlags}"
 
-RUN ${mkBashrcSource} && make lifex mkFlags="${mkFlags}"
-RUN tar czvf ${mkOutputBasename}-lifex.tar.gz ${mkPrefix}
+# RUN ${mkBashrcSource} && make lifex mkFlags="${mkFlags}"
+# RUN tar czvf ${mkOutputBasename}-lifex.tar.gz ${mkPrefix}
 
 RUN ${mkBashrcSource} && make extra mkFlags="${mkFlags}"
 RUN tar czvf ${mkOutputBasename}-full.tar.gz ${mkPrefix}
