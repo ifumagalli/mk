@@ -224,14 +224,14 @@ run() {
   pushd $m4dir
     ./configure --prefix="$tmpdir/tools"; make install
   popd
-
-  message "Installing Bison"
-  pushd $bisondir
+  
+  message "Installing Texinfo"
+  pushd $texinfodir
     ./configure --prefix="$tmpdir/tools"; make install
   popd
 
-  message "Installing Texinfo"
-  pushd $texinfodir
+  message "Installing Bison"
+  pushd $bisondir
     ./configure --prefix="$tmpdir/tools"; make install
   popd
 
