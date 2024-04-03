@@ -34,7 +34,7 @@ build() {
 package() {
   make -j$pkgJobs -C $pkgname-$pkgver/build install
 
-  ln -s "$mkToolchainPrefix/lib/libm.so" "$dstdir"/lib64
+  ln -sf "$mkToolchainPrefix/lib/libm.so" "$dstdir"/lib64
 
   strip "$dstdir"/bin
   strip "$dstdir"/lib64

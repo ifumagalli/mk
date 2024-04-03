@@ -54,7 +54,6 @@ extra:
 	#@"${mkPrefix}"/sbin/mkpkg $(mkFlags) fenics
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) qhull
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) qrupdate
-	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) sundials
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) octave
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) R
 
