@@ -32,9 +32,9 @@ package() {
                 --enable-shared \
                 --disable-static
     message "Building szip"
-    make
+    make -j$pkgJobs
     message "Installing szip"
-    make install
+    make -j$pkgJobs install
   popd
 
   # hdf5
@@ -54,9 +54,9 @@ package() {
                 --with-zlib \
                 --with-szlib="$dstdir/lib"
     message "Compiling $pkgname"
-    make
+    make -j$pkgJobs
     message "Installing $pkgname"
-    make install
+    make -j$pkgJobs install
   popd
 
   # Cleaning.

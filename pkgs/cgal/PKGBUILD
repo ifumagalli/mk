@@ -32,12 +32,12 @@ build() {
           -D EIGEN3_INCLUDE_DIR=$mkEigenInc \
           ../CGAL-$pkgver
     message "Compiling $pkgname"
-    make
+    make -j$pkgJobs
   popd
 }
 
 package() {
-  make -C build install
+  make -j$pkgJobs -C build install
 
   rm -rf "$dstdir"/share/doc
   compress_doc "$dstdir"/share/man

@@ -43,9 +43,9 @@ package() {
                 --enable-netcdf-4 \
                 --enable-dap-netcdf
     message "Compiling $pkgname-c"
-    make
+    make -j$pkgJobs
     message "Installing $pkgname-c"
-    make install
+    make -j$pkgJobs install
   popd
 
   export PATH="$dstdir/bin:$PATH"
@@ -61,9 +61,9 @@ package() {
                 --enable-shared \
                 --disable-static
     message "Compiling $pkgname-fortran"
-    make
+    make -j$pkgJobs
     message "Installing $pkgname-fortran"
-    make install
+    make -j$pkgJobs install
   popd
 
   # netcdf cxx
@@ -75,9 +75,9 @@ package() {
                 --enable-shared \
                 --disable-static
     message "Compiling $pkgname-cxx"
-    make
+    make -j$pkgJobs
     message "Installing $pkgname-cxx"
-    make install
+    make -j$pkgJobs install
   popd
 
   strip "$dstdir"/bin

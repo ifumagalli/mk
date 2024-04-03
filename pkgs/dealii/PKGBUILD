@@ -45,23 +45,23 @@ build() {
           -D DEAL_II_WITH_GSL=ON -D GSL_DIR="$mkGslPrefix" \
           -D DEAL_II_WITH_HDF5=ON -D HDF5_DIR="$mkHdf5Prefix" \
           -D DEAL_II_WITH_LAPACK=ON \
-            -D LAPACK_LIBRARIES="$mkOpenblasLib/libopenblas.so" \
-            -D SCALAPACK_DIR="$mkScalapackPrefix" \
+          -D LAPACK_LIBRARIES="$mkOpenblasLib/libopenblas.so" \
+          -D SCALAPACK_DIR="$mkScalapackPrefix" \
           -D DEAL_II_WITH_METIS=ON -D METIS_DIR="$mkMetisPrefix" \
           -D DEAL_II_WITH_P4EST=ON -D P4EST_DIR="$mkP4estPrefix" \
-            -D SC_DIR="$mkP4estPrefix" \
+          -D SC_DIR="$mkP4estPrefix" \
           -D DEAL_II_WITH_PETSC=ON -D PETSC_DIR="$mkPetscPrefix" \
           -D DEAL_II_WITH_OPENCASCADE=OFF \
           -D DEAL_II_WITH_SLEPC=ON -D SLEPC_DIR="$mkPetscPrefix" \
           -D DEAL_II_WITH_TBB=ON -D TBB_DIR="$mkTbbPrefix" \
-            -D TBB_INCLUDE_DIR="$mkTbbInc" \
+          -D TBB_INCLUDE_DIR="$mkTbbInc" \
           -D DEAL_II_WITH_TRILINOS=ON -D TRILINOS_DIR="$mkTrilinosPrefix" \
           -D DEAL_II_WITH_UMFPACK=ON -D UMFPACK_DIR="$mkSuitesparsePrefix" \
           -D DEAL_II_WITH_ZLIB=ON -D ZLIB_DIR="$mkToolchainBase/bin" \
-            -D ZLIB_INCLUDE_DIR="$mkToolchainBase/include" \
+          -D ZLIB_INCLUDE_DIR="$mkToolchainBase/include" \
           ../$pkgname-$pkgver
     message "Compiling $pkgname"
-    make
+    make 
   popd
 }
 

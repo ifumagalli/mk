@@ -19,12 +19,12 @@ build() {
     message "Configuring $pkgname"
     cmake -DCMAKE_INSTALL_PREFIX=$dstdir ../$pkgname-$pkgver
     message "Compiling $pkgname"
-    make
+    make -j$pkgJobs
   popd
 }
 
 package() {
-  make -C build install
+  make -j$pkgJobs -C build install
 
   strip "$dstdir/bin"
   strip "$dstdir/lib"
