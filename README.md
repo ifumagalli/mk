@@ -1,5 +1,5 @@
 # How to use
-1. Download [latest release](https://github.com/pcafrica/mk/releases).
+1. Clone the source tree [latest release](https://github.com/carlodefalco/mk/releases).
 2. Extract the archive just downloaded with:
 ```bash
 sudo tar xzvf mk-version.tar.gz -C /
@@ -17,9 +17,9 @@ module load package_name
 Use `module avail` or `module spider` to check the available packages.
 
 ## Docker
-A `Docker` image built upon [`Ubuntu`](https://hub.docker.com/_/ubuntu)
+A `Docker` image built on `Rocky Linux 9`
 (`x86-64` architecture) with `mk` installed is available
-[here](https://hub.docker.com/r/pcafrica/mk).
+[here](https://github.com/carlodefalco/mk/releases).
 
 ## How to build from source
 
