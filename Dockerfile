@@ -30,15 +30,16 @@ ENV mkBashrc "${HOME}/.bashrc_mk"
 ENV mkBashrcSource "source ${mkBashrc}"
 
 # Install dependencies.
-# ENV DEBIAN_FRONTEND=noninteractive
-RUN yum upgrade -y && \
-    yum install -y gcc python3 \
-      gawk procps wget curl openssh-client p11-kit \
-      git rsync zip unzip
+RUN dnf upgrade -y && \    
+    dnf --enablerepo crb install -y \
+    gcc gcc-c++ gcc-gfortran make python3 texinfo \
+    gawk procps wget openssh-clients p11-kit diffutils \
+    git rsync zip unzip bzip2 glibc-static patch xz perl-locale \
+    perl-Unicode-Normalize
 
 
 # Clone repo.
-RUN git clone https://github.com/carlodefalco/mk.git ${mkRoot}
+RUN git clone https://github.com/carlodefalco/mk.git ${mkRoot} 
 WORKDIR ${mkRoot}
 RUN git checkout kami
 
@@ -63,22 +64,22 @@ source /u/sw/etc/profile\n\
 module load gcc-glibc\n" >> ${mkBashrc}
 
 
-# 3. Base.
-WORKDIR ${mkRoot}/base
-RUN ${mkBashrcSource} && make install mkFlags="${mkFlags}"
-RUN tar czvf ${mkOutputBasename}-base.tar.gz ${mkPrefix}
+## # 3. Base.
+## WORKDIR ${mkRoot}/base
+## RUN ${mkBashrcSource} && make install mkFlags="${mkFlags}"
+## RUN tar czvf ${mkOutputBasename}-base.tar.gz ${mkPrefix}
 
 
-# 4. Packages.
-WORKDIR ${mkRoot}/pkgs
-RUN ${mkBashrcSource} && make libs mkFlags="${mkFlags}"
+## # 4. Packages.
+## WORKDIR ${mkRoot}/pkgs
+## RUN ${mkBashrcSource} && make libs mkFlags="${mkFlags}"
 
-# RUN ${mkBashrcSource} && make lifex mkFlags="${mkFlags}"
-# RUN tar czvf ${mkOutputBasename}-lifex.tar.gz ${mkPrefix}
+## # RUN ${mkBashrcSource} && make lifex mkFlags="${mkFlags}"
+## # RUN tar czvf ${mkOutputBasename}-lifex.tar.gz ${mkPrefix}
 
-RUN ${mkBashrcSource} && make extra mkFlags="${mkFlags}"
-RUN tar czvf ${mkOutputBasename}-full.tar.gz ${mkPrefix}
+## RUN ${mkBashrcSource} && make extra mkFlags="${mkFlags}"
+## RUN tar czvf ${mkOutputBasename}-full.tar.gz ${mkPrefix}
 
-# Set configuration variables.
+## # Set configuration variables.
 USER root
 WORKDIR ${HOME}
