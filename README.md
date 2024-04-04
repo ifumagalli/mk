@@ -21,6 +21,11 @@ A `Docker` image built on `Rocky Linux 9`
 (`x86-64` architecture) with `mk` installed is available
 [here](https://github.com/carlodefalco/mk/releases).
 
+### TODO
+
+Docker has deprecated and removed the `--squash` option.
+We should use [multi-stage builds](https://docs.docker.com/build/building/multi-stage/) instead
+
 ## How to build from source
 
 This is how the distro was built on `kami`
