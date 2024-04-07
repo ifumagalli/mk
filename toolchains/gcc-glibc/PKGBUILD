@@ -165,6 +165,7 @@ run() {
     [[ -r $srcdir/binutils-$binutilsver.patch ]] && \
       patch -p1 -i $srcdir/binutils-$binutilsver.patch
   popd
+
   pushd $gccdir
     # (5.4) https://www.mail-archive.com/gcc-patches@gcc.gnu.org/msg159613.html
     # (6.4.0) https://gcc.gnu.org/bugzilla/show_bug.cgi?id=81712
@@ -204,14 +205,16 @@ run() {
               >> $gccdir/gcc/config/rs6000/linux64.h
             ;;
   esac
+
   # glibc-2.27 must be patched in order to be compiled in alpine linux
+  # ** NOTE ** Disabling as 2.27 is old and no longer used
   # https://sourceware.org/bugzilla/show_bug.cgi?id=21604
-  if [[ -e /etc/alpine-release ]]; then
-    pushd $glibcdir
-      [[ -r $srcdir/glibc-$glibcver-alpine.patch ]] && \
-        patch -p1 -i $srcdir/glibc-$glibcver-alpine.patch
-    popd
-  fi
+  # if [[ -e /etc/alpine-release ]]; then
+  #  pushd $glibcdir
+  #    [[ -r $srcdir/glibc-$glibcver-alpine.patch ]] && \
+  #      patch -p1 -i $srcdir/glibc-$glibcver-alpine.patch
+  #  popd
+  # fi
 
   # fix CFLAGS and CXXFLAGS environment variables
   # `-DNDEBUG` disables the assertions, but it generates some warnings in GCC
@@ -477,8 +480,18 @@ run() {
   rm -rf $gccdir
   rm -rf $libelfdir $isldir $mpcdir $mpfrdir $gmpdir $binutilsdir
 
-  rm "$prefix"/bin/ld; ln -s ld.gold "$prefix"/bin/ld
 
+  # ** NOTE ** gold has been disbled so linking
+  # ld to ld.gold makes no sense!
+  # ld.gold has been deprcated at least in fedora
+  # <https://docs.fedoraproject.org/en-US/fedora/f31/release-notes/developers/Development_Tools/#gold-shift>
+  #
+  # rm "$prefix"/bin/ld;
+  # ln -s ld.gold "$prefix"/bin/ld
+
+  rm "$prefix"/bin/ld.gold; 
+  ln -s ld "$prefix"/bin/ld.gold
+  
   # finishing the installation
   rm "$prefix"/bin/$TARGET-gcc; ln -s $TARGET-gcc-$gccver "$prefix"/bin/$TARGET-gcc
   ln -s $TARGET-gcc $prefix/bin/$TARGET-cc
