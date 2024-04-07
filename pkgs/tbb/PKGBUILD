@@ -47,7 +47,7 @@ setenv("mkTbbPrefix", "$dstdir")
 setenv("mkTbbLib", "$dstdir/lib64")
 setenv("mkTbbInc", "$dstdir/include")
 
-prepend_path("LD_LIBRARY_PATH", "$dstdir/lib")
+prepend_path("LD_LIBRARY_PATH", "$dstdir/lib64")
 EOF
   fi
 }
