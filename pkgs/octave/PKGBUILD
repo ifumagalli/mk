@@ -27,7 +27,7 @@ build() {
   pushd $pkgname-$pkgver
     message "Configuring $pkgname"
     ./configure \
-	--prefix=/u/defalco/usr/mknew/toolchains/gcc-glibc/11.2.0/pkgs/octave \
+	--prefix=$dstdir \
         --enable-docs --disable-silent-rules --disable-java \
         --without-fltk --without-opengl --without-qt --without-x \
         --with-blas="$mkOpenblasLib/libopenblas.so" \
