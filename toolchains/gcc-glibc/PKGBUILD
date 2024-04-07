@@ -489,7 +489,7 @@ run() {
   # rm "$prefix"/bin/ld;
   # ln -s ld.gold "$prefix"/bin/ld
 
-  rm "$prefix"/bin/ld.gold; 
+  rm -rf "$prefix"/bin/ld.gold; 
   ln -s ld "$prefix"/bin/ld.gold
   
   # finishing the installation
