@@ -44,6 +44,9 @@ libs:
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) arborx
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) sundials
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) rapidjson
+	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) libtiff
+	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) libpng
+	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) graphicsmagick
 lifex:
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) dealii
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) vtk
@@ -56,6 +59,7 @@ extra:
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) qrupdate
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) octave
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) octave_file_io
+stat:
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) R
 
 install: libs lifex extra

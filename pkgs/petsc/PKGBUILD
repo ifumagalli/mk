@@ -1,22 +1,22 @@
 #!/bin/bash
 
 pkgname=petsc
-pkgver=3.15.1
+pkgver=3.21.0
 dstdir=$mkToolchainPkgs/$pkgname/$pkgver
 
 petscver=$pkgver
 petscarchive=$pkgname-$petscver.tar.gz
-petscsum=a0288520765a464550c0d96f3e3c0bf254c48005
+petscsum=0aae73ccdb1c6249a3d7f1d263a3f423eefcf2a8
 
-slepcver=3.15.1
+slepcver=3.21.0
 slepcarchive=slepc-$slepcver.tar.gz
-slepcsum=43c32ee14ad3f3cd1c3f264c8ced187a4a407002
+slepcsum=4b79fb8ea9b11bfcff512b40eb88d2c43c094553
 
-petsc4pyver=3.15.0
-slepc4pyver=3.15.1
+#petsc4pyver=3.15.0
+#slepc4pyver=3.15.1
 
 package() {
-  download https://ftp.mcs.anl.gov/pub/petsc/release-snapshots/$petscarchive
+  download https://web.cels.anl.gov/projects/petsc/download/release-snapshots/$petscarchive
   download https://slepc.upv.es/download/distrib/$slepcarchive
 
   check $petscarchive $petscsum
@@ -43,30 +43,71 @@ package() {
   # petsc
   pushd $pkgname-$petscver
     message "Configuring PETSc"
-    python \
-      ./configure --prefix="$dstdir" \
-                --LDFLAGS="-L$mkToolchainBase/lib -lbz2" \
-                --with-petsc-arch=arch-linux-opt \
-                --with-fortran=1 \
-                --with-pic=1 \
-                --with-debugging=0 \
-                --with-x=0 \
-                --with-blas-lapack=1 \
-                  --with-blas-lib="$mkOpenblasLib/libopenblas.so" \
-                  --with-lapack-lib="$mkOpenblasLib/libopenblas.so" \
-                --with-boost=1 --with-boost-dir="$mkBoostPrefix" \
-                --with-fftw=1 --with-fftw-dir="$mkFftwPrefix" \
-                --with-hdf5=1 --with-hdf5-dir="$mkHdf5Prefix" \
-                --with-hypre=1 --with-hypre-dir="$mkHyprePrefix" \
-                --with-metis=1 --with-metis-dir="$mkMetisPrefix" \
-                --with-mumps=1 --with-mumps-dir="$mkMumpsPrefix" \
-                --with-netcdf=1 --with-netcdf-dir="$mkNetcdfPrefix" \
-                --with-p4est=1 --with-p4est-dir="$mkP4estPrefix" \
-                --with-parmetis=1 --with-parmetis-dir="$mkMetisPrefix" \
-                --with-ptscotch=1 --with-ptscotch-dir="$mkScotchPrefix" \
-                --with-scalapack=1 --with-scalapack-dir="$mkScalapackPrefix" \
-                --with-suitesparse=1 --with-suitesparse-dir="$mkSuitesparsePrefix" \
-                --with-zlib=1 --with-zlib-dir="$mkToolchainBase"
+    # python \
+    # 	./configure \
+    # 	        CFLAGS=${CFLAGS} FCFLAGS=${FCFLAGS} CXXFLAGS=${CXXFLAGS} \
+    # 		COPTFALGS=${CFLAGS} \
+    # 		CXXOPTFLAGS=${CXXFLAGS} \
+    # 		FOPTFLAGS=${FCFLAGS} \
+    # 		--prefix="$dstdir" \
+    # 		--LDFLAGS="-L$mkToolchainBase/lib -lbz2 -L${mkOpenblasPrefix} -lopenblas" \
+    #             --with-petsc-arch=arch-linux-opt \
+    #             --with-fortran=1 \
+    #             --with-pic=1 \
+    # 		--with-mpi=1 \
+    #             --with-mpi-dir=${mkToolchainBase} /
+    #             --with-mpi-pkg-config=${mkToolchainBase}/lib/pkgconfig /
+    #             --known-mpi-shared-libraries=1 \
+    #             --with-debugging=0 \
+    #             --with-x=0 \
+    # 		--with-openblas=1 \
+    # 		--with-openblas-dir=${mkOpenblasPrefix} \
+    # 		--with-openblas-pkg-config=${mkOpenblasPrefix}/lib/pkgconfig/ \
+    # 		--with-openblas-pkg-config="-L${mkOpenblasLib} -openblas" \
+    #             --with-boost=1 --with-boost-dir="$mkBoostPrefix" \
+    #             --with-fftw=1 --with-fftw-dir="$mkFftwPrefix" \
+    #             --with-hdf5=1 --with-hdf5-dir="$mkHdf5Prefix" \
+    #             --with-hypre=1 --with-hypre-dir="$mkHyprePrefix" \
+    #             --with-metis=1 --with-metis-dir="$mkMetisPrefix" \
+    #             --with-mumps=1 --with-mumps-dir="$mkMumpsPrefix" \
+    #             --with-netcdf=1 --with-netcdf-dir="$mkNetcdfPrefix" \
+    #             --with-p4est=1 --with-p4est-dir="$mkP4estPrefix" \
+    #             --with-parmetis=1 --with-parmetis-dir="$mkMetisPrefix" \
+    #             --with-ptscotch=1 --with-ptscotch-dir="$mkScotchPrefix" \
+    #             --with-scalapack=1 --with-scalapack-dir="$mkScalapackPrefix" \
+    #             --with-suitesparse=1 --with-suitesparse-dir="$mkSuitesparsePrefix" \
+    #             --with-zlib=1 --with-zlib-dir="$mkToolchainBase"
+    python ./configure --prefix="$dstdir" \
+     	   CFLAGS=${CFLAGS} \
+	   FCFLAGS=${FCFLAGS} \
+	   CXXFLAGS=${CXXFLAGS} \
+     	   COPTFALGS=${CFLAGS} \
+     	   CXXOPTFLAGS=${CXXFLAGS} \
+     	   FOPTFLAGS=${FCFLAGS} \
+           --LDFLAGS="-L$mkToolchainBase/lib -lbz2" \
+	   --with-mpi-compilers=1 \
+	   --with-mpi-dir=$mkToolchainBase \
+	   --with-petsc-arch=arch-linux-opt \
+           --with-fortran=1 \
+           --with-pic=1 \
+           --with-debugging=0 \
+           --with-x=0 \
+           --with-blas-lapack=1 \
+           --with-blas-lib="$mkOpenblasLib/libopenblas.so" \
+           --with-lapack-lib="$mkOpenblasLib/libopenblas.so" \
+           --with-boost=1 --with-boost-dir="$mkBoostPrefix" \
+           --with-fftw=1 --with-fftw-dir="$mkFftwPrefix" \
+           --with-hdf5=1 --with-hdf5-dir="$mkHdf5Prefix" \
+           --with-hypre=1 --with-hypre-dir="$mkHyprePrefix" \
+           --with-metis=1 --with-metis-dir="$mkMetisPrefix" \
+           --with-mumps=1 --with-mumps-dir="$mkMumpsPrefix" \
+           --with-netcdf=1 --with-netcdf-dir="$mkNetcdfPrefix" \
+           --with-p4est=1 --with-p4est-dir="$mkP4estPrefix" \
+           --with-parmetis=1 --with-parmetis-dir="$mkMetisPrefix" \
+           --with-ptscotch=1 --with-ptscotch-dir="$mkScotchPrefix" \
+           --with-scalapack=1 --with-scalapack-dir="$mkScalapackPrefix" \
+           --with-suitesparse=1 --with-suitesparse-dir="$mkSuitesparsePrefix" \
+           --with-zlib=1 --with-zlib-dir="$mkToolchainBase"
 
     message "Compiling PETSc"
     command make MAKE_NP=$pkgJobs PETSC_DIR=$PWD PETSC_ARCH=arch-linux-opt all
@@ -80,9 +121,8 @@ package() {
     python \
       ./configure --prefix="$dstdir" \
                   --with-arpack=1 \
-                  --with-arpack-dir="$mkArpackPrefix" \
-                  --with-arpack-include="$mkArpackInclude" \
-                  --with-arpack-lib="-L$mkArpackLib,-larpack,-lparpack"
+                  --with-arpack-include="$mkArpackInc" \
+                  --with-arpack-lib="-L$mkArpackLib -larpack -lparpack"
     message "Compiling SLEPc"
     command make MAKE_NP=$pkgJobs SLEPC_DIR=$PWD PETSC_DIR="$dstdir"
     message "Installing SLEPc"
