@@ -23,6 +23,7 @@ build() {
   module load p4est
   module load petsc
   module load scalapack
+  module load sundials
   module load tbb
   module load trilinos
 
@@ -53,6 +54,7 @@ build() {
           -D DEAL_II_WITH_PETSC=ON -D PETSC_DIR="$mkPetscPrefix" \
           -D DEAL_II_WITH_OPENCASCADE=OFF \
           -D DEAL_II_WITH_SLEPC=ON -D SLEPC_DIR="$mkPetscPrefix" \
+          -D DEAL_II_WITH_SUNDIALS=ON -D SUNDIALS_DIR="$mkSundialsPrefix" \
           -D DEAL_II_WITH_TBB=ON -D TBB_DIR="$mkTbbPrefix" \
             -D TBB_INCLUDE_DIR="$mkTbbInc" \
           -D DEAL_II_WITH_TRILINOS=ON -D TRILINOS_DIR="$mkTrilinosPrefix" \
@@ -95,6 +97,7 @@ load("openblas")
 load("p4est")
 load("petsc")
 load("scalapack")
+load("sundials")
 load("tbb")
 load("trilinos")
 
