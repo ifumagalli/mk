@@ -36,6 +36,7 @@ package() {
 
   ln -sf "$mkToolchainPrefix/lib/libm.so" "$dstdir"/lib64
 
+  ln -s "$dstdir"/lib64 "$dstdir"/lib
   strip "$dstdir"/bin
   strip "$dstdir"/lib64
 

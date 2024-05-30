@@ -23,6 +23,7 @@ build() {
 package() {
   make -j$pkgJobs -C $pkgname-$pkgver install
 
+  ln -s "$dstdir/lib64" "$dstdir/lib"
   strip "$dstdir/lib"
   reset_rpath "$dstdir/lib"
 

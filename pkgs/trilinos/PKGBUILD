@@ -160,7 +160,7 @@ build() {
 
 package() {
   make -C build install
-
+  ln -s "$dstdir/lib64" "$dstdir/lib"
   strip "$dstdir/bin"
   strip "$dstdir/lib"
   reset_rpath "$dstdir/bin"

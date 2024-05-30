@@ -39,6 +39,7 @@ build() {
 package() {
   make -j$pkgJobs -C build install
 
+  ln -s "$dstdir"/lib64 "$dstdir"/lib
   rm -rf "$dstdir"/share/doc
   compress_doc "$dstdir"/share/man
   strip "$dstdir"/lib
