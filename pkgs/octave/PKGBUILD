@@ -23,6 +23,7 @@ build() {
   module load suitesparse
   module load sundials
   module load rapidjson
+  module load GraphicsMagick
   
   pushd $pkgname-$pkgver
     message "Configuring $pkgname"
@@ -107,6 +108,8 @@ load("qhull")
 load("qrupdate")
 load("suitesparse")
 load("sundials")
+load("rapidjson")
+load("GraphicsMagick")
 
 setenv("mkOctavePrefix", "$dstdir")
 
