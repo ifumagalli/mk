@@ -4,7 +4,7 @@ pkgname=nanoshaper
 pkgver=Nanoshaper_devel_TBB
 archive=$pkgname-$pkgver.tar.bz2
 
-sum=7e61af6fce2c3f8c6db41afef4e41547fb7acf25
+sum=52ea7707411d2521de098de84f14c06f1406fd5a
 
 dstdir=$mkToolchainPkgs/$pkgname/$pkgver
 
@@ -44,13 +44,16 @@ build() {
   message "configure and build"
   pushd $pkgname-$pkgver
     command cp CMakeLists_so.txt CMakeLists.txt
+    ##command [[ -r $srcdir/patchnanoshaper.diff ]] && patch -p0 -i $srcdir/patchnanoshaper.diff
     pushd build_lib
-      cmake .. \
-	    -DTBB_DIR=$mkTbbLib/cmake/TBB  \
-	    -DCGAL_DIR=$dstdir/lib/cmake/CGAL \
-	    -DBoost_INCLUDE_DIR=$mkBoostInc \
-	    -DGMPXX_INCLUDE_DIR=$mkToolchainBase/include \
-	    -DCMAKE_BUILD_TYPE=Debug ## -DCMAKE_BUILD_TYPE=Release causes a segfault
+      cmake .. -DTBB_DIR=$mkTbbLib/cmake/TBB  \
+	       -DCGAL_DIR=$dstdir/lib/cmake/CGAL \
+	       -DBoost_INCLUDE_DIR=$mkBoostInc \
+	       -DGMPXX_INCLUDE_DIR=$mkToolchainBase/include \
+	       -DMPFR_LIBRARIES_DIR=$mkToolchainBase/lib \
+	       -DMPFR_INCLUDE_DIR=$mkToolchainBase/include \
+	       -DCMAKE_BUILD_TYPE=Release
+
       make -j$pkgJobs
     popd
   popd
