@@ -15,6 +15,7 @@ build() {
     message "Configuring $pkgname"
     CC=$(which mpicc) \
     CXX=$(which mpic++) \
+    LIBS="-lz -lm" \
     ./configure --prefix="$dstdir" \
                 --enable-mpi \
                 --enable-shared \
