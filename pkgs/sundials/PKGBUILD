@@ -1,9 +1,11 @@
 #!/bin/bash
 
 pkgname=sundials
-pkgver=7.0.0
+pkgver=6.6.2
+#pkgver=7.7.0
 archive=$pkgname-$pkgver.tar.gz
-sum=2ed6e2597cf2c05859fcbec31dab9b0dc804636a
+sum=41e08b3ce82fb402373181b6566c42c9d38c6c19
+#sum=2ed6e2597cf2c05859fcbec31dab9b0dc804636a
 dstdir=$mkToolchainPkgs/$pkgname/$pkgver
 
 build() {
@@ -13,35 +15,32 @@ build() {
 
   module load openblas
   module load suitesparse
-  pushd $pkgname-$pkgver
+
   mkdir build
   pushd build 
-  message "Configuring $pkgname"
-        cmake -D CMAKE_INSTALL_PREFIX="$dstdir" \
-	      -D EXAMPLES_INSTALL=OFF \
-	      -D EXAMPLES_ENABLE_C=OFF \
-	      -D ENABLE_LAPACK=ON \
-              -D ENABLE_KLU=ON \
-	      -D KLU_INCLUDE_DIR="$mkSuitesparseInc" \
-	      -D KLU_LIBRARY="$mkSuitesparseLib"/libklu.so \
-	      ..
-	message "Compiling $pkgname"
-	make -j$pkgJobs
-     popd
-    popd
+    message "Configuring $pkgname"
+    cmake -D CMAKE_INSTALL_PREFIX="$dstdir" \
+          -D ENABLE_MPI=ON \
+          -D EXAMPLES_INSTALL=OFF \
+          -D EXAMPLES_ENABLE_C=OFF \
+          -D ENABLE_LAPACK=ON \
+          -D ENABLE_KLU=ON \
+          -D KLU_INCLUDE_DIR="$mkSuitesparseInc" \
+          -D KLU_LIBRARY="$mkSuitesparseLib"/libklu.so \
+      ../$pkgname-$pkgver
+    message "Compiling $pkgname"
+    make
+  popd
 }
 
 package() {
-  make -j$pkgJobs -C $pkgname-$pkgver/build install
+  make -j$pkgJobs -C build install
 
-  ln -sf "$mkToolchainPrefix/lib/libm.so" "$dstdir"/lib64
-
-  ln -s "$dstdir"/lib64 "$dstdir"/lib
   strip "$dstdir"/bin
-  strip "$dstdir"/lib64
+  strip "$dstdir"/lib
 
   reset_rpath "$dstdir"/bin
-  reset_rpath "$dstdir"/lib64
+  reset_rpath "$dstdir"/lib
 
   if [[ "$mkTest" = "no" ]]; then
     install -vd $mkToolchainModules/$pkgname
@@ -62,11 +61,11 @@ load("suitesparse")
 
 setenv("mkSundialsPrefix", "$dstdir")
 setenv("mkSundialsBin", "$dstdir/bin")
-setenv("mkSundialsLib", "$dstdir/lib64")
+setenv("mkSundialsLib", "$dstdir/lib")
 setenv("mkSundialsInc", "$dstdir/include")
 
 prepend_path("PATH", "$dstdir/bin")
-prepend_path("LD_LIBRARY_PATH", "$dstdir/lib64")
+prepend_path("LD_LIBRARY_PATH", "$dstdir/lib")
 EOF
   fi
 }

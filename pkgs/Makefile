@@ -39,6 +39,7 @@ libs:
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) matio
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) petsc
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) trilinos
+	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) sundials
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) adol-c
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) gsl
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) arborx
