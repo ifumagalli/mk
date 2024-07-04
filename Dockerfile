@@ -64,22 +64,22 @@ source ${mkPrefix}/etc/profile\n\
 module load gcc-glibc\n" >> ${mkBashrc}
 
 
-## # 3. Base.
+# 3. Base.
 WORKDIR ${mkRoot}/base
 RUN ${mkBashrcSource} && make install mkFlags="${mkFlags}"
 RUN tar czvf ${mkOutputBasename}-base.tar.gz ${mkPrefix}
 
 
-## # 4. Packages.
+# 4. Packages.
 WORKDIR ${mkRoot}/pkgs
 RUN ${mkBashrcSource} && make libs mkFlags="${mkFlags}"
 
-## # RUN ${mkBashrcSource} && make lifex mkFlags="${mkFlags}"
-# RUN tar czvf ${mkOutputBasename}-lifex.tar.gz ${mkPrefix}
+RUN ${mkBashrcSource} && make lifex mkFlags="${mkFlags}"
+RUN tar czvf ${mkOutputBasename}-lifex.tar.gz ${mkPrefix}
 
 RUN ${mkBashrcSource} && make extra mkFlags="${mkFlags}"
 RUN tar czvf ${mkOutputBasename}-full.tar.gz ${mkPrefix}
 
-## # Set configuration variables.
+# Set configuration variables.
 USER root
 WORKDIR ${HOME}
