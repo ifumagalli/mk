@@ -33,8 +33,7 @@ libs:
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) eigen
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) hdf5
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) netcdf
-	#@"${mkPrefix}"/sbin/mkpkg $(mkFlags) scipy
-	#@"${mkPrefix}"/sbin/mkpkg $(mkFlags) pybind11
+	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) pybind11
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) pnetcdf
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) matio
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) petsc
@@ -55,7 +54,6 @@ lifex:
 extra:
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) lis
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) cgal
-	#@"${mkPrefix}"/sbin/mkpkg $(mkFlags) fenics
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) qhull
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) qrupdate
 	@"${mkPrefix}"/sbin/mkpkg $(mkFlags) octave

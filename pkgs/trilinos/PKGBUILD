@@ -25,7 +25,6 @@ build() {
   module load openblas
   module load pnetcdf
   module load scalapack
-  #module load scipy
   module load scotch
   module load suitesparse
   module load tbb
@@ -192,7 +191,6 @@ load("netcdf")
 load("openblas")
 load("pnetcdf")
 load("scalapack")
---load("scipy")
 load("scotch")
 load("suitesparse")
 load("tbb")

@@ -12,9 +12,6 @@ slepcver=3.21.0
 slepcarchive=slepc-$slepcver.tar.gz
 slepcsum=4b79fb8ea9b11bfcff512b40eb88d2c43c094553
 
-#petsc4pyver=3.15.0
-#slepc4pyver=3.15.1
-
 package() {
   download https://web.cels.anl.gov/projects/petsc/download/release-snapshots/$petscarchive
   download https://slepc.upv.es/download/distrib/$slepcarchive
@@ -37,7 +34,6 @@ package() {
   module load p4est
   module load scalapack
   module load scotch
-  #module load scipy
   module load suitesparse
 
   # petsc
@@ -129,14 +125,6 @@ package() {
     command make SLEPC_DIR=$PWD PETSC_DIR="$dstdir" install
   popd
 
-  # python bindings
-  # message "Installing Python bindings"
-  # PETSC_DIR="$dstdir" \
-  #   pip install --verbose --prefix="$dstdir" petsc4py==$petsc4pyver
-  # PYTHONPATH=$dstdir/lib/python3.9/site-packages:$PYTHONPATH \
-  # PETSC_DIR="$dstdir" SLEPC_DIR="$dstdir" \
-  #   pip install --verbose --prefix="$dstdir" slepc4py==$slepc4pyver
-
   # cleaning
   find "$dstdir"/include -name \*html -exec rm {} \;
   rm -rf "$dstdir"/share
@@ -178,7 +166,6 @@ load("openblas")
 load("p4est")
 load("scalapack")
 load("scotch")
---load("scipy")
 load("suitesparse")
 
 setenv("mkPetscPrefix", "$dstdir")
