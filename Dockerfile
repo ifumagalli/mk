@@ -11,37 +11,36 @@
 #   docker cp <container_id>:/mk/mk-2024.0-full.tar.gz .
 
 
-FROM rockylinux:9
+FROM debian:buster
 
-MAINTAINER carlo.defalco@polimi.it
+MAINTAINER pasqualeclaudio.africa@polimi.it
 
 
 # Define variables.
 ENV HOME /root
-ENV mkPrefix /opt/mox/mk
+ENV mkPrefix /u/sw
 
 ENV mkRoot /mk
-ENV mkOutputBasename "${mkRoot}/mk-kami"
+ENV mkOutputBasename "${mkRoot}/mk-2024.0"
 
 ENV mkKeepBuildDir yes
-ENV mkFlags "--jobs=2 -v"
+ENV mkFlags "--jobs=6 -v"
 
 ENV mkBashrc "${HOME}/.bashrc_mk"
 ENV mkBashrcSource "source ${mkBashrc}"
 
 # Install dependencies.
-RUN dnf upgrade -y && \    
-    dnf --enablerepo crb install -y \
-    gcc gcc-c++ gcc-gfortran make python3 texinfo \
-    gawk procps wget openssh-clients p11-kit diffutils \
-    git rsync zip unzip bzip2 glibc-static patch xz perl-locale \
-    perl-Unicode-Normalize
+ENV DEBIAN_FRONTEND=noninteractive
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-get install -y build-essential python2.7 python3 \
+      gawk procps wget curl openssh-client p11-kit \
+      git rsync zip unzip
 
 
 # Clone repo.
-RUN git clone https://github.com/carlodefalco/mk.git ${mkRoot} 
-WORKDIR ${mkRoot}
-RUN git checkout kami
+RUN git clone https://github.com/pcafrica/mk.git ${mkRoot}
+
 
 # 1. Bootstrap.
 WORKDIR ${mkRoot}
