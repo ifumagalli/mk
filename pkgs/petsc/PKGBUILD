@@ -39,40 +39,6 @@ package() {
   # petsc
   pushd $pkgname-$petscver
     message "Configuring PETSc"
-    # python \
-    # 	./configure \
-    # 	        CFLAGS=${CFLAGS} FCFLAGS=${FCFLAGS} CXXFLAGS=${CXXFLAGS} \
-    # 		COPTFALGS=${CFLAGS} \
-    # 		CXXOPTFLAGS=${CXXFLAGS} \
-    # 		FOPTFLAGS=${FCFLAGS} \
-    # 		--prefix="$dstdir" \
-    # 		--LDFLAGS="-L$mkToolchainBase/lib -lbz2 -L${mkOpenblasPrefix} -lopenblas" \
-    #             --with-petsc-arch=arch-linux-opt \
-    #             --with-fortran=1 \
-    #             --with-pic=1 \
-    # 		--with-mpi=1 \
-    #             --with-mpi-dir=${mkToolchainBase} /
-    #             --with-mpi-pkg-config=${mkToolchainBase}/lib/pkgconfig /
-    #             --known-mpi-shared-libraries=1 \
-    #             --with-debugging=0 \
-    #             --with-x=0 \
-    # 		--with-openblas=1 \
-    # 		--with-openblas-dir=${mkOpenblasPrefix} \
-    # 		--with-openblas-pkg-config=${mkOpenblasPrefix}/lib/pkgconfig/ \
-    # 		--with-openblas-pkg-config="-L${mkOpenblasLib} -openblas" \
-    #             --with-boost=1 --with-boost-dir="$mkBoostPrefix" \
-    #             --with-fftw=1 --with-fftw-dir="$mkFftwPrefix" \
-    #             --with-hdf5=1 --with-hdf5-dir="$mkHdf5Prefix" \
-    #             --with-hypre=1 --with-hypre-dir="$mkHyprePrefix" \
-    #             --with-metis=1 --with-metis-dir="$mkMetisPrefix" \
-    #             --with-mumps=1 --with-mumps-dir="$mkMumpsPrefix" \
-    #             --with-netcdf=1 --with-netcdf-dir="$mkNetcdfPrefix" \
-    #             --with-p4est=1 --with-p4est-dir="$mkP4estPrefix" \
-    #             --with-parmetis=1 --with-parmetis-dir="$mkMetisPrefix" \
-    #             --with-ptscotch=1 --with-ptscotch-dir="$mkScotchPrefix" \
-    #             --with-scalapack=1 --with-scalapack-dir="$mkScalapackPrefix" \
-    #             --with-suitesparse=1 --with-suitesparse-dir="$mkSuitesparsePrefix" \
-    #             --with-zlib=1 --with-zlib-dir="$mkToolchainBase"
     python ./configure --prefix="$dstdir" \
      	   CFLAGS=${CFLAGS} \
 	   FCFLAGS=${FCFLAGS} \
@@ -106,9 +72,9 @@ package() {
            --with-zlib=1 --with-zlib-dir="$mkToolchainBase"
 
     message "Compiling PETSc"
-    command make MAKE_NP=$pkgJobs PETSC_DIR=$PWD PETSC_ARCH=arch-linux-opt all
+    command make -j$pkgJobs MAKE_NP=$pkgJobs PETSC_DIR=$PWD PETSC_ARCH=arch-linux-opt all
     message "Installing PETSc"
-    command make PETSC_DIR=$PWD PETSC_ARCH=arch-linux-opt install
+    command make -j$pkgJobs PETSC_DIR=$PWD PETSC_ARCH=arch-linux-opt install
   popd
 
   # slepc
@@ -120,9 +86,9 @@ package() {
                   --with-arpack-include="$mkArpackInc" \
                   --with-arpack-lib="-L$mkArpackLib -larpack -lparpack"
     message "Compiling SLEPc"
-    command make MAKE_NP=$pkgJobs SLEPC_DIR=$PWD PETSC_DIR="$dstdir"
+    command make -j$pkgJobs MAKE_NP=$pkgJobs SLEPC_DIR=$PWD PETSC_DIR="$dstdir"
     message "Installing SLEPc"
-    command make SLEPC_DIR=$PWD PETSC_DIR="$dstdir" install
+    command make -j$pkgJobs SLEPC_DIR=$PWD PETSC_DIR="$dstdir" install
   popd
 
   # cleaning

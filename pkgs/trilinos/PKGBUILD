@@ -153,12 +153,12 @@ build() {
 	  -D TPL_HWLOC_LIBRARIES="$mkToolchainBase/lib/libhwloc.so" \
 	  ../Trilinos-$pkgname-release-${pkgver//./-}
     message "Compiling $pkgname"
-    make VERBOSE=1
+    make -j$pkgJobs VERBOSE=1
   popd
 }
 
 package() {
-  make -C build install
+  make -j$pkgJobs -C build install
   ln -s "$dstdir/lib64" "$dstdir/lib"
   strip "$dstdir/bin"
   strip "$dstdir/lib"
