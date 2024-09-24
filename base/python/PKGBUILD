@@ -61,4 +61,5 @@ package() {
   ln -svf pip${pkgver%%.*} "$dstdir"/bin/pip
 
   pip install six
+  pip install setuptools
 }
